@@ -1,0 +1,20 @@
+node_modules
+# Dependências
+node_modules/
+
+# Build e compilação (arquivos gerados pelo TypeScript no futuro)
+dist/
+build/
+
+# Variáveis de ambiente (Segurança)
+.env
+.env.*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Arquivos de Sistema e configurações de Editores
+.DS_Store
+Thumbs.db
+.vscode/
