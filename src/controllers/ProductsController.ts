@@ -8,7 +8,7 @@ export class ProductsController {
         try {
             const { product_name } = request.query
 
-            const products = await knex<ProductsRepository>("products").select().whereLike("product_name", `%${product_name ?? ""}%`).orderBy("product_name")
+            const products = await knex<ProductsRepository>("products").select().whereLike("product_name", `%${product_name ?? ""}%`).orderBy("product_id")
             
 
             return response.json(products)
