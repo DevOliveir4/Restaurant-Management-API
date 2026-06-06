@@ -25,4 +25,14 @@ export class TablesSessonsController {
             next(error)
         }
     }
+
+    async index(request: Request, response:Response, next: NextFunction) {
+        try {
+            const tablesSessions = await knex<TablesSessionsRepository>("tables_sessions").select().orderBy("table_session_closed_at")
+
+            return response.json(tablesSessions)
+        } catch (error) {
+            next(error)
+        }
+    }
 }
