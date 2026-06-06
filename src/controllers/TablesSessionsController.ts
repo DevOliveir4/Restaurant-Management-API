@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { knex } from "@/database/knex";
 import { z } from "zod"
 import { AppError } from "@/utils/AppError";
+import { table } from "console";
 
 export class TablesSessonsController {
     async create(request: Request, response:Response, next: NextFunction){
@@ -31,6 +32,28 @@ export class TablesSessonsController {
             const tablesSessions = await knex<TablesSessionsRepository>("tables_sessions").select().orderBy("table_session_closed_at")
 
             return response.json(tablesSessions)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async update(request: Request, response:Response, next: NextFunction) {
+        try {
+            const id = z.string().transform((value) => Number(value)).refine((value) => !isNaN(value), { message: "o id precisa ser um número" }).parse(request.params.id)
+
+            const sessions = await knex<TablesSessionsRepository>("tables_sessions").select().where({ table_session_id: id }).first()
+
+            if (!sessions) {
+                throw new AppError("tabela não encontrada")
+            }
+
+            if (sessions.table_session_closed_at) {
+                throw new AppError("Esta sessão já esta fechada")
+            }
+
+            await knex<TablesSessionsRepository>("tables_sessions").update({ table_session_closed_at: knex.fn.now() }).where({ table_session_id: id })
+
+            return response.json()
         } catch (error) {
             next(error)
         }
