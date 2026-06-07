@@ -7,10 +7,10 @@ export async function up(knex: Knex): Promise<void> {
         table.increments("order_id").primary()
         table.integer("table_session_id").notNullable().references("table_session_id").inTable("tables_sessions")
         table.integer("product_id").notNullable().references("product_id").inTable("products")
-        table.integer("quantity").notNullable()
-        table.decimal("price").notNullable()
-        table.timestamp("order_created_at").defaultTo(knex.fn.now)
-        table.timestamp("order_updated_at").defaultTo(knex.fn.now)
+        table.integer("order_product_quantity").notNullable()
+        table.decimal("order_price").notNullable()
+        table.timestamp("order_created_at").defaultTo(knex.fn.now())
+        table.timestamp("order_updated_at").defaultTo(knex.fn.now())
     })
 }
 

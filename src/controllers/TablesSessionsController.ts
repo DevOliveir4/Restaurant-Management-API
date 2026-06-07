@@ -44,11 +44,11 @@ export class TablesSessonsController {
             const sessions = await knex<TablesSessionsRepository>("tables_sessions").select().where({ table_session_id: id }).first()
 
             if (!sessions) {
-                throw new AppError("tabela não encontrada")
+                throw new AppError("Mesa não encontrada")
             }
 
             if (sessions.table_session_closed_at) {
-                throw new AppError("Esta sessão já esta fechada")
+                throw new AppError("Esta mesa já esta fechada")
             }
 
             await knex<TablesSessionsRepository>("tables_sessions").update({ table_session_closed_at: knex.fn.now() }).where({ table_session_id: id })
